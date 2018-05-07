@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {CurrenciesService} from '../services/currencies.service';
+import {CurrenciesService, Currencies, CustomerSearchCriteria} from '../services/currencies.service';
 
 @Component({
   selector: 'app-exchange-table',
@@ -8,19 +8,20 @@ import {CurrenciesService} from '../services/currencies.service';
 })
 export class ExchangeTableComponent implements OnInit {
 
-  bankRates;
-  surchargeRates;
+  bankRates = this.currenciesService.getSortedRates({sortColumn: 'id', sortDirection:'asc'});
 
   constructor (private currenciesService: CurrenciesService) {}
 
   onChange() {
-    this.currenciesService.getCurrencies().subscribe(resp => {
-      this.bankRates = resp;
-    });
-    // this.surchargeRates = this.bankRates.map()
+    this.currenciesService.getSortedRates({sortColumn: 'id', sortDirection:'asc'});
   }
 
-  ngOnInit() {
+  onSorted($event){
+    this.currenciesService.getSortedRates($event);
+  }
+
+  ngOnInit(){
+    this.currenciesService.getSortedRates({sortColumn: 'id', sortDirection:'asc'});
   }
 
 }
