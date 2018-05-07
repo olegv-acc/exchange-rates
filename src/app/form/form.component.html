@@ -1,0 +1,22 @@
+  <h2>Form</h2>
+
+    <div ng-app>
+      <label>
+        Base
+        <select name="base" [(ngModel)]="selectedCurrency">
+          <option *ngFor="let item of baseCurrencies " [value]="item">{{item}}</option>
+        </select>
+      </label>
+    </div>
+
+    <div>
+      <label>
+        Date
+        <input type="date" name="date" [(ngModel)]="selectedDate" required value="{{selectedDate}}"/>
+      </label>
+    </div>
+
+    <div>
+      <button (click)="onChange()">Display</button>
+    </div>
+
