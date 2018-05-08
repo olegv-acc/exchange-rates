@@ -3,17 +3,16 @@ import {HttpClient} from '@angular/common/http';
 import 'rxjs/Rx';
 
 
-
-
 @Injectable()
 
 export class CurrenciesService {
 
   selectedCurrency = 'EUR';
   baseCurrencies = ['EUR','USD','GBP','AUD','CAD','JPY'];
-  notSelectedCurrencies;
+  notSelectedCurrencies = '';
+
   bankRates = {};
-  ourRates = [];
+  ourRates = {};
 
 
   getTodayDate = () => {
@@ -26,7 +25,7 @@ export class CurrenciesService {
   constructor (private httpClient: HttpClient) {}
 
   setSelectedDate(selected) {
-    this.selectedDate = selected;
+    selected ? this.selectedDate = selected : '';
   }
 
   setBaseCurrency(selected) {
@@ -37,46 +36,36 @@ export class CurrenciesService {
     this.notSelectedCurrencies = this.baseCurrencies.filter( el => el !== selected).join(',');
   }
 
-  getCurrencies() {
-    return this.httpClient.get<any>('https://exchangeratesapi.io/api/' + this.selectedDate + '?base=' + this.selectedCurrency + '&symbols=' +  this.notSelectedCurrencies )
-      .map( response => response.rates );
-  }
+  static calcSurcharge( val, percentage: number, updown: string ): number {
 
-  static calcSurcharge( val, percentage: number, updown: string ) {
-    let num = parseFloat(val);
     if (updown == 'up') {
-      return (num - (num * percentage)).toFixed(4);
+      return Number((val - (val * percentage)).toFixed(4));
     }
     if(updown == 'down') {
-      return (num + (num * percentage)).toFixed(4);
+      return Number((val + (val * percentage)).toFixed(4));
     }
   }
 
-  getRates() {
-    this.getCurrencies().subscribe(resp => { this.bankRates = resp; });
-
-    this.ourRates = [];
-    for ( let key in this.bankRates ) {
-      this.ourRates.push({
+  static getFormattedObj(obj) {
+    return Object.entries(obj).map(([key, value]) => {
+      return {
         name: key,
-        sell: CurrenciesService.calcSurcharge(this.bankRates[key], .05, 'up'),
-        buy: CurrenciesService.calcSurcharge(this.bankRates[key], .05, 'down')
-      });
-    }
-    let str_json_values = JSON.stringify(this.ourRates);
-    return  JSON.parse(str_json_values);
-  }
-
-  getSortedRates( criteria: CustomerSearchCriteria ): Currencies[] {
-    return this.getRates().sort((a,b) => {
-      if(criteria.sortDirection === 'desc'){
-        return a[criteria.sortColumn] - b[criteria.sortColumn];
-      }
-      else {
-        return a[criteria.sortColumn] - b[criteria.sortColumn];
+        sell: CurrenciesService.calcSurcharge( value, .05, 'up' ),
+        our: value,
+        buy: CurrenciesService.calcSurcharge( value, .05, 'down' )
       }
     });
   }
+
+  getJsonCurrencies() {
+    return this.httpClient.get('https://exchangeratesapi.io/api/' + this.selectedDate + '?base=' + this.selectedCurrency + '&symbols=' +  this.notSelectedCurrencies )
+      .map( response => { return response } )
+      .map( response => response['rates'])
+      .map( rates => {
+        return CurrenciesService.getFormattedObj(rates);
+      });
+  }
+
 
    _mockCurrencies = [
      { name:'USD',sell:'1.1307',buy:'1.2497'},
@@ -85,15 +74,4 @@ export class CurrenciesService {
      { name:'CAD',sell:'1.4571',buy:'1.6105'}
   ];
 
-}
-
-export class Currencies {
-  name: string;
-  sell: string;
-  buy: string;
-}
-
-export class CustomerSearchCriteria {
-  sortColumn: string;
-  sortDirection: string;
 }

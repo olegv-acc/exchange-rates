@@ -11,29 +11,48 @@ import {CurrenciesService} from '../services/currencies.service';
 
 export class FormComponent implements OnInit {
 
-  baseCurrencies = [];
+
   selectedCurrency;
+
+  baseCurrencies = {};
   notSelectedCurrencies;
   selectedDate;
 
+  bankRates;
+
   constructor (private currenciesService: CurrenciesService) {}
 
+
   onChange() {
+
     this.currenciesService.setBaseCurrency(this.selectedCurrency);
-    this.currenciesService.setUnselectedCurrencies(this.selectedCurrency);
+
     this.currenciesService.setSelectedDate(this.selectedDate);
-   console.log('my:',this.currenciesService.getRates());
+
+    this.currenciesService.setUnselectedCurrencies(this.selectedCurrency);
+
+    this.currenciesService.getJsonCurrencies().subscribe( data => {
+      this.bankRates = data;
+    });
+
   }
 
   ngOnInit() {
 
-    this.baseCurrencies = this.currenciesService.baseCurrencies;
     this.selectedCurrency = this.currenciesService.selectedCurrency;
-    this.selectedDate = this.currenciesService.selectedDate;
 
     this.currenciesService.setUnselectedCurrencies(this.selectedCurrency);
+
     this.notSelectedCurrencies = this.currenciesService.notSelectedCurrencies;
 
-    this.currenciesService.getRates()
+    this.baseCurrencies = this.currenciesService.baseCurrencies;
+
+    this.selectedDate = this.currenciesService.selectedDate;
+
+    this.currenciesService.getJsonCurrencies().subscribe( data => {
+      this.bankRates = data;
+    });
+
   }
+
 }
