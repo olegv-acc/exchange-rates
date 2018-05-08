@@ -1,4 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import {HttpClientModule} from '@angular/common/http';
 import {FormsModule} from '@angular/forms';
@@ -10,6 +11,7 @@ import { CurrenciesService } from './services/currencies.service';
 
 import {SortDirective} from './directives/sort.directive'
 
+import { MatInputModule, MatProgressSpinnerModule, MatSortModule, MatTableModule } from "@angular/material";
 
 @NgModule({
 
@@ -21,8 +23,13 @@ import {SortDirective} from './directives/sort.directive'
 
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    MatInputModule,
+    MatTableModule,
+    MatSortModule,
+    MatProgressSpinnerModule
   ],
 
   providers: [CurrenciesService],

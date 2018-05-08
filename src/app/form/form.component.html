@@ -24,10 +24,10 @@
 
 <section class="table-section">
 
-  <table (ratechange)="onChange()">
+  <table>
     <thead>
     <tr>
-      <th sortColumn [sortKey]="'name'" [data]="bankRates">Currency</th>
+      <th sortColumn [sortKey]="'name'" [data]="bankRates" class="sortable" (mouseup)="onClick()">Currency<i [ngClass]="{'up': sortedDirectionUp, 'down': sortedDirectionDown}"></i></th>
       <th>Sell</th>
       <th>Buy</th>
     </tr>

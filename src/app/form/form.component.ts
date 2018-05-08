@@ -8,20 +8,19 @@ import {CurrenciesService} from '../services/currencies.service';
   providers: [CurrenciesService]
 })
 
-
 export class FormComponent implements OnInit {
 
-
   selectedCurrency;
-
   baseCurrencies = {};
   notSelectedCurrencies;
   selectedDate;
-
   bankRates;
 
-  constructor (private currenciesService: CurrenciesService) {}
 
+  sortedDirectionDown = false;
+  sortedDirectionUp = false;
+
+  constructor (private currenciesService: CurrenciesService) {}
 
   onChange() {
 
@@ -34,6 +33,9 @@ export class FormComponent implements OnInit {
     this.currenciesService.getJsonCurrencies().subscribe( data => {
       this.bankRates = data;
     });
+
+    this.sortedDirectionDown = false;
+    this.sortedDirectionUp = false;
 
   }
 
@@ -55,4 +57,11 @@ export class FormComponent implements OnInit {
 
   }
 
+  onClick() {
+    let d = this.sortedDirectionDown;
+    let u = this.sortedDirectionUp;
+    if ( !d && !u ) {this.sortedDirectionDown = true}
+    if (  d && !u ) {this.sortedDirectionDown = false; this.sortedDirectionUp = true;}
+    if (  !d && u ) {this.sortedDirectionDown = true; this.sortedDirectionUp = false;}
+  }
 }
