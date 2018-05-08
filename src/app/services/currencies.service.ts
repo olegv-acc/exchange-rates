@@ -11,9 +11,6 @@ export class CurrenciesService {
   baseCurrencies = ['EUR','USD','GBP','AUD','CAD','JPY'];
   notSelectedCurrencies = '';
 
-  bankRates = {};
-  ourRates = {};
-
 
   getTodayDate = () => {
     let myDate = new Date();
@@ -65,7 +62,6 @@ export class CurrenciesService {
         return CurrenciesService.getFormattedObj(rates);
       });
   }
-
 
    _mockCurrencies = [
      { name:'USD',sell:'1.1307',buy:'1.2497'},
