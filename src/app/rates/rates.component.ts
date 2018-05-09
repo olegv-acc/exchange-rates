@@ -3,8 +3,8 @@ import {CurrenciesService} from '../services/currencies.service';
 
 @Component ({
   selector: 'app-form',
-  templateUrl: './form.component.html',
-  styleUrls: ['./form.component.scss'],
+  templateUrl: './rates.component.html',
+  styleUrls: ['./rates.component.scss'],
   providers: [CurrenciesService]
 })
 
