@@ -22,7 +22,7 @@ export class CurrenciesService {
   constructor (private httpClient: HttpClient) {}
 
   setSelectedDate(selected) {
-    selected ? this.selectedDate = selected : '';
+    selected ? this.selectedDate = selected : this.selectedDate = this.getTodayDate();
   }
 
   setBaseCurrency(selected) {
