@@ -58,7 +58,7 @@
         }
 
         th {
-          background: #7f8da9;
+          background: #c8dcff;
           padding: 7px 20px;
 
           position: relative;
@@ -84,6 +84,31 @@
     }
 
     & i {
+
+      &.neutral {
+        width: 0;
+        height: 0;
+        border-left: 5px solid transparent;
+        border-right: 5px solid transparent;
+        border-top: 10px solid #c6c6c6;
+        position: absolute;
+        top: 50%;
+        right: 5px;
+        margin-bottom: -8px;
+
+        &::after {
+          content: '';
+          width: 0;
+          height: 0;
+          border-left: 5px solid transparent;
+          border-right: 5px solid transparent;
+          border-bottom: 10px solid #c6c6c6;
+          position: absolute;
+          bottom: 50%;
+          right: -5px;
+          margin-bottom: 11px;
+        }
+      }
 
       &.down {
         width: 0;

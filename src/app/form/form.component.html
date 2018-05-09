@@ -27,7 +27,10 @@
   <table>
     <thead>
     <tr>
-      <th sortColumn [sortKey]="'name'" [data]="bankRates" class="sortable" (mouseup)="onClick()">Currency<i [ngClass]="{'up': sortedDirectionUp, 'down': sortedDirectionDown}"></i></th>
+      <th sortColumn [sortKey]="'name'" [data]="bankRates" class="sortable" (mouseup)="onClick()">
+        Currency
+        <i [ngClass]="{'up': sortedDirectionUp, 'down': sortedDirectionDown, 'neutral': !sortedDirectionUp && !sortedDirectionDown}"></i>
+      </th>
       <th>Sell</th>
       <th>Buy</th>
     </tr>
