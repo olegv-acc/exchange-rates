@@ -5,7 +5,7 @@ import {HttpClientModule} from '@angular/common/http';
 import {FormsModule} from '@angular/forms';
 
 import { AppComponent } from './app.component';
-import {FormComponent} from './form/form.component';
+import {FormComponent} from './rates/rates.component';
 
 import { CurrenciesService } from './services/currencies.service';
 
